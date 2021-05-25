@@ -9,7 +9,7 @@ import com.getcapacitor.PluginCall;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
@@ -57,14 +57,13 @@ public class PhoneProviderHandler implements ProviderHandler {
             public void onVerificationFailed(FirebaseException error) {
                 Log.w(PHONE_TAG, "PhoneAuth:onVerificationFailed:" + error);
 
-                if (error instanceof FirebaseAuthInvalidCredentialsException) {
-                    plugin.handleFailure("Invalid phone number.", error);
+                if (error instanceof FirebaseAuthException) {
+                    plugin.handleFailure(error.getMessage(), ((FirebaseAuthException)error).getErrorCode(), error);
                 } else if (error instanceof FirebaseTooManyRequestsException) {
-                    plugin.handleFailure("Quota exceeded.", error);
+                    plugin.handleFailure(error.getMessage(), "ERROR_TOO_MANY_REQUESTS", error);
                 } else {
-                    plugin.handleFailure("PhoneAuth Sign In failure.", error);
+                    plugin.handleFailure(error.getMessage(), error);
                 }
-
             }
 
             public void onCodeSent(String verificationId,
@@ -74,6 +73,8 @@ public class PhoneProviderHandler implements ProviderHandler {
                 // by combining the code with a verification ID.
                 Log.d(PHONE_TAG, "onCodeSent:" + verificationId);
 
+                PluginCall call = plugin.getSavedCall();
+
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
@@ -82,6 +83,23 @@ public class PhoneProviderHandler implements ProviderHandler {
                 JSObject jsEvent = new JSObject();
                 jsEvent.put("verificationId", mVerificationId);
                 plugin.notifyListeners("cfaSignInPhoneOnCodeSent", jsEvent);
+            }
+
+            public void onCodeAutoRetrievalTimeOut(String verificationId) {
+                Log.d(PHONE_TAG, "onCodeAutoRetrievalTimeOut:" + verificationId);
+
+                PluginCall call = plugin.getSavedCall();
+
+                mVerificationId = verificationId;
+
+                JSObject jsEvent = new JSObject();
+                jsEvent.put("verificationId", mVerificationId);
+                plugin.notifyListeners("cfaSignInPhoneOnCodeAutoRetrievalTimeOut", jsEvent);
+
+                JSObject response = new JSObject();
+                response.put("callbackId", call.getCallbackId());
+                response.put("verificationId", mVerificationId);
+                call.resolve(response);
             }
         };
     }
