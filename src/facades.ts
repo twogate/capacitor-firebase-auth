@@ -8,7 +8,6 @@ import type {
   CapacitorFirebaseAuthPlugin,
   FacebookSignInResult,
   GoogleSignInResult,
-  PhoneSignInResult,
   SignInOptions,
   TwitterSignInResult,
 } from "./definitions";

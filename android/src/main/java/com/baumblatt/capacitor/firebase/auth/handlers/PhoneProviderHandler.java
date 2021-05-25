@@ -73,8 +73,6 @@ public class PhoneProviderHandler implements ProviderHandler {
                 // by combining the code with a verification ID.
                 Log.d(PHONE_TAG, "onCodeSent:" + verificationId);
 
-                PluginCall call = plugin.getSavedCall();
-
                 // Save verification ID and resending token so we can use them later
                 mVerificationId = verificationId;
                 mResendToken = token;
