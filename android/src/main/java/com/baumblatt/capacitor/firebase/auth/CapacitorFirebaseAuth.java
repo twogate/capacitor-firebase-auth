@@ -236,18 +236,22 @@ public class CapacitorFirebaseAuth extends Plugin {
         });
     }
 
-    public void handleFailure(String message, Exception e) {
+    public void handleFailure(String message, String code, Exception e) {
         PluginCall savedCall = getSavedCall();
         if (savedCall == null) {
             Log.d(PLUGIN_TAG, "No saved call on handle failure.");
             return;
         }
 
-        if (e != null) {
-            savedCall.reject(message + " " + e.getMessage(), e);
-        } else {
-            savedCall.reject(message);
-        }
+        savedCall.reject(message, code, e);
+    }
+
+    public void handleFailure(String message, Exception e) {
+      handleFailure(message, null, e);
+    }
+
+    public void handleFailure(String message) {
+      handleFailure(message, null, null);
     }
 
     private JSObject build(AuthCredential credential, PluginCall call) {
