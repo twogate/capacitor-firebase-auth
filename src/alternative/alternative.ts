@@ -183,4 +183,4 @@ export const cfaSignInPhone = (phone: string, verificationCode?: string): Observ
 };
 
 // re-exporting the unchanged functions from facades for simple imports.
-export { cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent, cfaSignOut } from '../facades'
+export { cfaSignInPhoneOnCodeAutoRetrievalTimeOut, cfaSignInPhoneOnCodeReceived, cfaSignInPhoneOnCodeSent, cfaSignOut } from '../facades'

@@ -209,6 +209,22 @@ export const cfaSignInPhoneOnCodeSent = (): Observable<string> => {
 	});
 };
 
+
+/**
+ * Observable of one notification of <code>Code Auto Retrieval Time Out</code>event from Phone Verification process.
+ */
+export const cfaSignInPhoneOnCodeAutoRetrievalTimeOut = (): Observable<string> => {
+	return new Observable<string>(observer => {
+		// @ts-ignore
+		return plugin.addListener('cfaSignInPhoneOnCodeAutoRetrievalTimeOut', (event: { verificationId: string }) => {
+				observer.next(event.verificationId);
+				observer.complete();
+			}
+		);
+	});
+};
+
+
 /**
  * Observable of one notification of <code>On Code Received</code> event from Phone Verification process.
  */
