@@ -255,6 +255,7 @@ export const cfaSignInPhone = (
 
 // re-exporting the unchanged functions from facades for simple imports.
 export {
+  cfaSignInPhoneOnCodeAutoRetrievalTimeOut,
   cfaSignInPhoneOnCodeReceived,
   cfaSignInPhoneOnCodeSent,
   cfaSignOut,
