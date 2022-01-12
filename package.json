@@ -15,11 +15,11 @@
 	"author": "Bernardo Baumblatt",
 	"license": "MIT",
 	"dependencies": {
-		"@capacitor/core": "next"
+		"@capacitor/core": "^3.3.0"
 	},
 	"devDependencies": {
-		"@capacitor/android": "next",
-		"@capacitor/ios": "next",
+		"@capacitor/android": "^3.3.0",
+		"@capacitor/ios": "^3.3.0",
 		"rimraf": "^3.0.0",
 		"typescript": "^3.9.5 || ^4.0.0"
 	},
