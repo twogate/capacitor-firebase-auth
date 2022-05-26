@@ -8,8 +8,8 @@ def capacitor_pods
 end
 
 target 'Plugin' do
-  pod 'Firebase/Core'
-  pod 'Firebase/Auth'
+  pod 'Firebase/Core', '~> 8'
+  pod 'Firebase/Auth', '~> 8'
   pod 'GoogleSignIn'
   pod 'FBSDKCoreKit'
   pod 'FBSDKLoginKit'
